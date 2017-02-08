@@ -1,3 +1,5 @@
+import java.util.*;
+
 /**
  * Created by yaodh on 2016/10/10.
  */
@@ -16,5 +18,15 @@ public class Test {
         map.put("va", "sfd");
         map.put(null, "sl");
         System.out.println(map);
+
+        LinkedList list = new LinkedList();
+        list.add(1);
+
+        int a = (int) (100.0 * 30311636 / 30311636);
+        System.out.println(a);
+
+        ArrayList<String> alist = new ArrayList<>(2);
+        alist.add("hello");
+        System.out.println(alist.get(0));
     }
 }
