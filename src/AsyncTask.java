@@ -71,7 +71,7 @@ public abstract class AsyncTask<Params, Progress, Result> {
         Runnable mActive;
 
         @Override
-        public synchronized void execute(Runnable command) {
+        public synchronized void execute(final Runnable command) {
             mTasks.offer(new Runnable() {
                 @Override
                 public void run() {

@@ -4,7 +4,7 @@
 public class TestVolatile {
 
     public static void main(String[] args) {
-        MyVolatile myVolatile = new MyVolatile();
+        final MyVolatile myVolatile = new MyVolatile();
 
         new Thread() {
             @Override

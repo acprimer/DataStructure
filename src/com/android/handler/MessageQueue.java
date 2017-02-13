@@ -18,6 +18,7 @@ public class MessageQueue {
     private IdleHandler[] mPendingIdleHandlers;
     private boolean mQuitting;
     private boolean mBlocked;
+    private int mNextBarrierToken;
 
     private BlockingQueue<Message> blockingQueue = new LinkedBlockingQueue<>();
 
@@ -331,6 +332,63 @@ public class MessageQueue {
             }
 
             nativeWake(mPtr);
+        }
+    }
+
+    public int postSyncBarrier() {
+        return postSyncBarrier(System.currentTimeMillis());
+    }
+
+    private int postSyncBarrier(long when) {
+        synchronized (this) {
+            final int token = mNextBarrierToken++;
+            final Message msg = Message.obtain();
+            msg.markInUse();
+            msg.when = when;
+            msg.arg1 = token;
+
+            Message prev = null;
+            Message p = mMessages;
+            if (when != 0) {
+                while (p != null && p.when < when) {
+                    prev = p;
+                    p = p.next;
+                }
+            }
+            if (prev != null) {
+                msg.next = p;
+                prev.next = msg;
+            } else {
+                msg.next = p;
+                mMessages = msg;
+            }
+            return token;
+        }
+    }
+
+    public void removeSyncBarrier(int token) {
+        synchronized (this) {
+            Message prev = null;
+            Message p = mMessages;
+            while (p != null && (p.target != null || p.arg1 != token)) {
+                prev = p;
+                p = p.next;
+            }
+            if (p == null) {
+                throw new IllegalStateException("has already been removed.");
+            }
+            final  boolean needWake;
+            if (prev != null) {
+                prev.next = p.next;
+                needWake = false;
+            } else {
+                mMessages = p.next;
+                needWake = (mMessages == null || mMessages.target != null);
+            }
+            p.recycleUnckecked();
+            if (needWake && !mQuitting) {
+                nativeWake(mPtr);
+            }
         }
     }
 

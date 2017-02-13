@@ -1,9 +1,5 @@
 package com.android.handler;
 
-import java.time.Clock;
-
-import static java.lang.Thread.sleep;
-
 /**
  * Created by yaodh on 2017/2/9.
  */
@@ -28,7 +24,7 @@ public class MainThread {
     }
 
     private void onCreate() {
-        Handler handler = new Handler() {
+        final Handler handler = new Handler() {
             @Override
             public void handleMessage(Message msg) {
                 System.out.println(msg);
@@ -48,14 +44,21 @@ public class MainThread {
                 handler.sendMessage(message);
 
                 try {
-                    Thread.sleep(2000);
+                    Thread.sleep(500);
                 } catch (InterruptedException e) {
                 }
                 message = Message.obtain();
                 message.what = 3;
                 message.obj = "haha";
+                int token = handler.mQueue.postSyncBarrier();
                 handler.sendMessage(message);
-                handler.sendMessage(null);
+
+                try {
+                    Thread.sleep(5000);
+                } catch (InterruptedException e) {
+                }
+                handler.mQueue.removeSyncBarrier(token);
+
             }
         }.start();
     }
