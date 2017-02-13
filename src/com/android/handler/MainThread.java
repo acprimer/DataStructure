@@ -2,6 +2,8 @@ package com.android.handler;
 
 import java.time.Clock;
 
+import static java.lang.Thread.sleep;
+
 /**
  * Created by yaodh on 2017/2/9.
  */
@@ -16,16 +18,19 @@ public class MainThread {
         onCreate();
 
         Looper.loop();
+
+//        try {
+//            sleep(1000);
+//        } catch (InterruptedException e) {
+//            e.printStackTrace();
+//        }
+//        Looper.myLooper().quit();
     }
 
     private void onCreate() {
-        Thread mainThread = Thread.currentThread();
-        System.out.println("Thread " + Thread.currentThread());
-
         Handler handler = new Handler() {
             @Override
             public void handleMessage(Message msg) {
-                System.out.println("Thread " + Thread.currentThread() + " " + (mainThread == Thread.currentThread() ? "true" : "false"));
                 System.out.println(msg);
             }
         };
@@ -33,15 +38,24 @@ public class MainThread {
         new Thread() {
             @Override
             public void run() {
-//                try {
-//                    Thread.sleep(1000);
-//                } catch (InterruptedException e) {
-//                }
-                System.out.println("Thread " + Thread.currentThread());
+                try {
+                    Thread.sleep(500);
+                } catch (InterruptedException e) {
+                }
                 Message message = new Message();
                 message.what = 2;
                 message.obj = "obj";
-                handler.handleMessage(message);
+                handler.sendMessage(message);
+
+                try {
+                    Thread.sleep(2000);
+                } catch (InterruptedException e) {
+                }
+                message = Message.obtain();
+                message.what = 3;
+                message.obj = "haha";
+                handler.sendMessage(message);
+                handler.sendMessage(null);
             }
         }.start();
     }

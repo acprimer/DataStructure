@@ -5,6 +5,7 @@ package com.android.handler;
  */
 public class Message {
     static final int FLAG_IN_USE = 1 << 0;
+    static final int FLAG_ASYNCHRONOUS = 1 << 1;
 
     public int what;
     public int arg1, arg2;
@@ -15,7 +16,7 @@ public class Message {
     Handler target;
     Runnable callback;
 
-    private Message next;
+    Message next;
 
     private static final Object sPoolSync = new Object();
     private static Message sPool;
@@ -41,7 +42,7 @@ public class Message {
         return new Message();
     }
 
-    public static Message obtarin(Handler handler) {
+    public static Message obtain(Handler handler) {
         Message m = obtain();
         m.target = handler;
 
@@ -81,8 +82,24 @@ public class Message {
         }
     }
 
+    public boolean isAsynchronous() {
+        return (flags & FLAG_ASYNCHRONOUS) != 0;
+    }
+
+    public void setAsynchronous(boolean async) {
+        if (async) {
+            flags |= FLAG_ASYNCHRONOUS;
+        } else {
+            flags &= ~FLAG_ASYNCHRONOUS;
+        }
+    }
+
     boolean isInUse() {
         return (flags & FLAG_IN_USE) != 0;
+    }
+
+    void markInUse() {
+        flags |= FLAG_IN_USE;
     }
 
     public Handler getTarget() {
