@@ -38,9 +38,10 @@ public class MainThread {
                     Thread.sleep(500);
                 } catch (InterruptedException e) {
                 }
-                Message message = new Message();
+                Message message = Message.obtain();
                 message.what = 2;
                 message.obj = "obj";
+                System.out.println(message);
                 handler.sendMessage(message);
 
                 try {
@@ -50,7 +51,13 @@ public class MainThread {
                 message = Message.obtain();
                 message.what = 3;
                 message.obj = "haha";
+                System.out.println(message + " " + message.isInUse());
                 int token = handler.mQueue.postSyncBarrier();
+                handler.sendMessage(message);
+                message = Message.obtain();
+                message.setAsynchronous(true);
+                message.what = 4;
+                message.obj = "test";
                 handler.sendMessage(message);
 
                 try {

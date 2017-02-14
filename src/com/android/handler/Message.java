@@ -116,6 +116,6 @@ public class Message {
 
     @Override
     public String toString() {
-        return "Message what = " + what + " obj = " + obj.toString();
+        return "Message " + super.toString() + " what = " + what + " obj = " + (obj == null ? "null" : obj);
     }
 }
