@@ -33,6 +33,10 @@ public class Handler {
         this(null, false);
     }
 
+    public Handler(Callback callback) {
+        this(callback, false);
+    }
+
     public Handler(Callback callback, boolean async) {
         mLooper = Looper.myLooper();
         if (mLooper == null) {
@@ -46,6 +50,24 @@ public class Handler {
 
     public final Message obtainMessage() {
         return Message.obtain(this);
+    }
+
+    private static Message getPostMessage(Runnable r) {
+        Message m = Message.obtain();
+        m.callback = r;
+        return m;
+    }
+
+    public final boolean post(Runnable r) {
+        return sendMessageDelayed(getPostMessage(r), 0);
+    }
+
+    public final boolean postAtTime(Runnable r, long uptimeMillis) {
+        return sendMessageAtTime(getPostMessage(r), uptimeMillis);
+    }
+
+    public final boolean postDelayed(Runnable r, long delayMillis) {
+        return sendMessageDelayed(getPostMessage(r), delayMillis);
     }
 
     public final boolean sendMessage(Message msg) {
@@ -77,5 +99,25 @@ public class Handler {
 
     private static void handleCallback(Message msg) {
         msg.callback.run();
+    }
+
+    public final void removeCallbacks(Runnable r) {
+        mQueue.removeMessages(this, r, null);
+    }
+
+    public final void removeCallbacks(Runnable r, Object token) {
+        mQueue.removeMessages(this, r, token);
+    }
+
+    public final void removeMessages(int what) {
+        mQueue.removeMessages(this, what, null);
+    }
+
+    public final void removeMessages(int what, Object obj) {
+        mQueue.removeMessages(this, what, obj);
+    }
+
+    public final void removeCallbacksAndMessages(Object token) {
+        mQueue.removeCallbacksAndMessages(this, token);
     }
 }

@@ -275,6 +275,74 @@ public class MessageQueue {
         }
     }
 
+    void removeMessages(Handler h, Runnable r, Object obj) {
+        if (h == null || r == null) {
+            return;
+        }
+
+        synchronized (this) {
+            Message p = mMessages;
+
+            // Remove all messages at front.
+            while (p != null && p.target == h && p.callback == r
+                    && (obj == null || p.obj == obj)) {
+                Message n = p.next;
+                mMessages = n;
+                p.recycleUnckecked();
+                p = n;
+            }
+
+            // Remove all messages after front.
+            while (p != null) {
+                Message n = p.next;
+                if (n != null) {
+                    if (n.target == h && n.callback == r
+                            && (obj == null || n.obj == obj)) {
+                        Message nn = n.next;
+                        n.recycleUnckecked();
+                        p.next = nn;
+                        continue;
+                    }
+                }
+                p = n;
+            }
+        }
+    }
+
+    void removeCallbacksAndMessages(Handler h, Object obj) {
+        if (h == null) {
+            return;
+        }
+
+        synchronized (this) {
+            Message p = mMessages;
+
+            // Remove all messages at front.
+            while (p != null && p.target == h
+                    && (obj == null || p.obj == obj)) {
+                Message n = p.next;
+                mMessages = n;
+                p.recycleUnckecked();
+                p = n;
+            }
+
+            // Remove all messages after front.
+            while (p != null) {
+                Message n = p.next;
+                if (n != null) {
+                    if (n.target == h
+                            && (obj == null || n.obj == obj)) {
+                        Message nn = n.next;
+                        n.recycleUnckecked();
+                        p.next = nn;
+                        continue;
+                    }
+                }
+                p = n;
+            }
+        }
+    }
+
     // 删除所有消息
     private void removeAllMessageLocked() {
         Message p = mMessages;
