@@ -1,4 +1,4 @@
-package patterns.singleton;
+package patterns.singleton.eagerly_load;
 
 /**
  * Created by yaodh on 2017/4/7.

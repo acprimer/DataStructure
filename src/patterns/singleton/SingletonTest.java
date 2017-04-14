@@ -1,5 +1,10 @@
 package patterns.singleton;
 
+import patterns.singleton.eagerly_load.SingletonHungry_1;
+import patterns.singleton.eagerly_load.SingletonHungry_2;
+import patterns.singleton.eagerly_load.SingletonHungry_3;
+import patterns.singleton.lazy_load.SingletonEnum;
+
 /**
  * Created by yaodh on 2017/4/7.
  */
@@ -11,5 +16,9 @@ public class SingletonTest {
 
         SingletonHungry_3 singletonHungry_3 = SingletonHungry_3.getInstance();
         System.out.println(singletonHungry_3);
+
+        SingletonEnum.INSTANCE.doSomething();
+
+        Class<?> clazz = SingletonHungry_1.class;
     }
 }

@@ -1,4 +1,5 @@
-import java.io.Serializable;
+package collections.map;
+
 import java.util.*;
 
 /**
@@ -221,9 +222,9 @@ public abstract class AbstractMap<K, V> implements Map<K, V> {
             Map.Entry<K, V> entry = it.next();
             K key = entry.getKey();
             V value = entry.getValue();
-            builder.append(key == this ? "(this Map)" : key);
+            builder.append(key == this ? "(this collections.map.Map)" : key);
             builder.append('=');
-            builder.append(value == this ? "(this Map)" : value);
+            builder.append(value == this ? "(this collections.map.Map)" : value);
             if(it.hasNext()) {
                 builder.append(", ");
             }

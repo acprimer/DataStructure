@@ -1,3 +1,6 @@
+import collections.map.HashMap;
+import collections.map.Map;
+
 import java.io.*;
 import java.util.Arrays;
 import java.util.TreeMap;

@@ -1,3 +1,5 @@
+package collections.map;
+
 import java.io.*;
 import java.util.*;
 
@@ -250,13 +252,13 @@ public class HashMap<K, V> extends AbstractMap<K, V>
         return entrySet;
     }
 
-    static class HashMapEntry<K, V> implements Entry<K, V> {
+    private static class HashMapEntry<K, V> implements Entry<K, V> {
         final K key;
         V value;
         final int hash;
         HashMapEntry<K, V> next;
 
-        public HashMapEntry(K key, V value, int hash, HashMapEntry<K, V> next) {
+        HashMapEntry(K key, V value, int hash, HashMapEntry<K, V> next) {
             this.key = key;
             this.value = value;
             this.hash = hash;
