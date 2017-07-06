@@ -48,12 +48,14 @@ public class ObjectMemoryAddress {
         System.out.println(Long.toHexString(addressOf(str)));
 
         MemTest memTest = new MemTest();
-        memTest.next = new MemTest();
+        MemTest.Inner inner = memTest.new Inner();
+//        memTest.next = new MemTest();
         System.out.println("hash code: 0x" + Integer.toHexString(new Object().hashCode()));
         System.out.println("hash code: 0x" + Integer.toHexString(memTest.hashCode()) + " 0b:" + Integer.toBinaryString(memTest.hashCode()));
         System.out.println("hash code: 0x" + Integer.toHexString(memTest.hashCode()) + " 0b:" + Integer.toBinaryString(memTest.hashCode()));
         printAddress("mem: ", memTest);
-        printAddress("mem next: ", memTest.next);
+//        printAddress("mem next: ", memTest.next);
+        printAddress("mem inner: ", inner);
 
         System.out.println();
 
@@ -103,7 +105,7 @@ public class ObjectMemoryAddress {
                 System.out.println(" getAddress " + unsafe.getInt(i1) + " 0x" + Integer.toHexString(unsafe.getInt(i1)) + " 0b: " + Integer.toBinaryString(unsafe.getInt(i1)));
                 System.out.println(" getAddress " + unsafe.getLong(i1 + 4));
                 System.out.println(" getAddress " + unsafe.getInt(i1 + 12));
-                System.out.println(" getAddress " + unsafe.getInt(i1 + 16));
+                System.out.println(" getAddress " + unsafe.getInt(i1 + 16) + " 0x" + Long.toHexString(8*unsafe.getLong(i1 + 16)));
                 System.out.println(" getAddress " + unsafe.getInt(i1 + 20));
                 System.out.println(" getAddress " + unsafe.getLong(i1 + 24));
                 System.out.println(" getAddress hex: " + Long.toHexString(8*unsafe.getLong(i1 + 24)));

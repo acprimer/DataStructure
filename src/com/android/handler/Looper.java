@@ -50,7 +50,7 @@ public class Looper {
         }
         final MessageQueue queue = me.mQueue;
         for (;;) {
-            Message msg = queue.next();
+            Message msg = queue.next(); // might block
             if (msg == null) {
                 System.out.println("msg == null");
                 return;

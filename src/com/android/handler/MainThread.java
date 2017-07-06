@@ -13,19 +13,19 @@ public class MainThread {
 
         onCreate();
 
-        onDestroy();
-
         Looper.loop();
     }
 
     private void onCreate() {
-        final Handler handler = new Handler(new Handler.Callback() {
+        System.out.println("I'm the main thread " + Thread.currentThread().getId());
+        Handler.Callback callback = new Handler.Callback() {
             @Override
             public boolean handleMessage(Message msg) {
                 System.out.println("callback handleMessage " + msg);
-                return true;
+                return false;
             }
-        }) {
+        };
+        final Handler handler = new Handler(callback) {
             @Override
             public void handleMessage(Message msg) {
                 System.out.println("handleMessage " + msg);
@@ -35,10 +35,7 @@ public class MainThread {
         new Thread() {
             @Override
             public void run() {
-                try {
-                    Thread.sleep(500);
-                } catch (InterruptedException e) {
-                }
+                System.out.println("I'm in run. " + Thread.currentThread().getId());
                 Message message = Message.obtain();
                 message.what = 2;
                 message.obj = "obj";
@@ -47,37 +44,38 @@ public class MainThread {
                 handler.post(new Runnable() {
                     @Override
                     public void run() {
-                        System.out.println("in runnable");
+                        System.out.println("I'm in runnable. " + Thread.currentThread().getId());
                     }
                 });
 
-//                try {
-//                    Thread.sleep(500);
-//                } catch (InterruptedException e) {
-//                }
-//                message = Message.obtain();
-//                message.what = 3;
-//                message.obj = "haha";
-//                System.out.println(message + " " + message.isInUse());
-//                int token = handler.mQueue.postSyncBarrier();
-//                handler.sendMessage(message);
-//                message = Message.obtain();
+                try {
+                    Thread.sleep(500);
+                } catch (InterruptedException e) {
+                }
+                message = Message.obtain();
+                message.what = 3;
+                message.obj = "haha";
+                System.out.println(message + " " + message.isInUse());
+
+                int token = handler.mQueue.postSyncBarrier();
+                handler.sendMessage(message);
+
+
+                message = Message.obtain();
 //                message.setAsynchronous(true);
-//                message.what = 4;
-//                message.obj = "test";
-//                handler.sendMessage(message);
-//
-//                try {
-//                    Thread.sleep(5000);
-//                } catch (InterruptedException e) {
-//                }
-//                handler.mQueue.removeSyncBarrier(token);
+                message.what = 4;
+                message.obj = "test";
+                handler.sendMessage(message);
+                Log.d("send test message");
+
+                try {
+                    Thread.sleep(5000);
+                } catch (InterruptedException e) {
+                }
+                Log.d("removed");
+                handler.mQueue.removeSyncBarrier(token);
 
             }
         }.start();
-    }
-
-    private void onDestroy() {
-//        Looper.myLooper().quit();
     }
 }

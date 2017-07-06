@@ -5,5 +5,8 @@ public class MemTest {
     int x = 5;
     int y = 10;
     int z = 15;
-    MemTest next;
+//    MemTest next;
+    class Inner {
+        int t = 75;
+    }
 }

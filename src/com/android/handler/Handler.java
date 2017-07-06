@@ -10,7 +10,7 @@ public class Handler {
     final boolean mAsynchronous;
 
     public interface Callback {
-        public boolean handleMessage(Message msg);
+        boolean handleMessage(Message msg);
     }
 
     public void handleMessage(Message msg) {
