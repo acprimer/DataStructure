@@ -3,6 +3,10 @@ import sun.misc.Unsafe;
 import java.lang.ref.ReferenceQueue;
 import java.lang.ref.SoftReference;
 import java.lang.ref.WeakReference;
+import java.lang.reflect.Field;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.LinkedList;
 import java.util.Scanner;
 
 import static sun.misc.Unsafe.getUnsafe;
@@ -26,16 +30,33 @@ public class Test {
         map.put(null, "sl");
         System.out.println(map);
 
-//        LinkedList list = new LinkedList();
-//        list.add(1);
-//
-//        int a = (int) (100.0 * 30311636 / 30311636);
-//        System.out.println(a);
-//
-//        ArrayList<String> alist = new ArrayList<>(2);
-//        alist.add("hello");
-//        System.out.println(alist.get(0));
+        LinkedList list = new LinkedList();
+        list.add(1);
 
+        int a = (int) (100.0 * 30311636 / 30311636);
+        System.out.println(a);
+
+        ArrayList<String> alist = new ArrayList<>(3);
+        alist.add("A");
+        alist.add("B");
+        alist.add("C");
+        System.out.println(alist.get(0));
+        Object[] objs = alist.toArray();
+        System.out.println(Arrays.toString(objs));
+        String[] strs = alist.toArray(new String[0]);
+        System.out.println(Arrays.toString(strs));
+
+        ArrayList<String> blist = new ArrayList<>(2);
+        blist.add("D");
+        blist.add("A");
+        blist.add("B");
+        System.out.println(alist.contains("hello"));
+        System.out.println(alist.contains("A"));
+        System.out.println(alist.containsAll(blist));
+//        alist.removeAll(blist);
+//        System.out.println(alist);
+        alist.retainAll(blist);
+        System.out.println(alist);
 
         ReferenceQueue<Object> referenceQueue = new ReferenceQueue<>();
         String sw = "weak ref";
@@ -62,40 +83,5 @@ public class Test {
                 break;
         }
 
-        Scanner sc = new Scanner(System.in);
-        while (sc.hasNext()) {
-            String s = sc.nextLine();
-
-        }
-
-    }
-
-    static final Unsafe unsafe = getUnsafe();
-    static final boolean is64bit = true; // auto detect if possible.
-    public static void printAddresses(String label, Object... objects) {
-        System.out.print(label + ": 0x");
-        long last = 0;
-
-        int offset = unsafe.arrayBaseOffset(objects.getClass());
-        int scale = unsafe.arrayIndexScale(objects.getClass());
-        switch (scale) {
-            case 4:
-                long factor = is64bit ? 8 : 1;
-                final long i1 = (unsafe.getInt(objects, offset) & 0xFFFFFFFFL) * factor;
-                System.out.print(Long.toHexString(i1));
-                last = i1;
-                for (int i = 1; i < objects.length; i++) {
-                    final long i2 = (unsafe.getInt(objects, offset + i * 4) & 0xFFFFFFFFL) * factor;
-                    if (i2 > last)
-                        System.out.print(", +" + Long.toHexString(i2 - last));
-                    else
-                        System.out.print(", -" + Long.toHexString( last - i2));
-                    last = i2;
-                }
-                break;
-            case 8:
-                throw new AssertionError("Not supported");
-        }
-        System.out.println();
     }
 }

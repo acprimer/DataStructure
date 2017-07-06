@@ -28,9 +28,19 @@ public class MainThread {
         final Handler handler = new Handler(callback) {
             @Override
             public void handleMessage(Message msg) {
-                System.out.println("handleMessage " + msg);
+                Log.d("handleMessage " + msg);
+                switch (msg.what) {
+                    case DownloadThread.MSG_DOWNLOAD_COMPLETE_CODE:
+                        Log.d("I'm the main thread " + Thread.currentThread().getId());
+                        Log.d("I got a message which said download complete.");
+                        break;
+                }
             }
         };
+
+        // print looper & queue
+        Log.d("The Looper in the main thread " + handler.mLooper);
+        Log.d("The MessageQueue in the main thread " + handler.mQueue);
 
         new Thread() {
             @Override
@@ -68,14 +78,16 @@ public class MainThread {
                 handler.sendMessage(message);
                 Log.d("send test message");
 
-                try {
-                    Thread.sleep(5000);
-                } catch (InterruptedException e) {
-                }
-                Log.d("removed");
-                handler.mQueue.removeSyncBarrier(token);
+//                try {
+//                    Thread.sleep(1000);
+//                } catch (InterruptedException e) {
+//                }
+//                Log.d("removed");
+//                handler.mQueue.removeSyncBarrier(token);
 
             }
         }.start();
+
+        new DownloadThread(handler).start();
     }
 }
