@@ -29,6 +29,5 @@ public class ReceiverThreadA extends Thread {
 
     public void exit() {
         Looper.myLooper().quit();
-        interrupt();
     }
 }

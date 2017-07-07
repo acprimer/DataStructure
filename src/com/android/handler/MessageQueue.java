@@ -1,7 +1,5 @@
 package com.android.handler;
 
-import com.sun.istack.internal.NotNull;
-
 import java.util.ArrayList;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
@@ -400,6 +398,7 @@ public class MessageQueue {
             }
 
             nativeWake(mPtr);
+            mPtr = 0;
         }
     }
 
