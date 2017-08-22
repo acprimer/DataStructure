@@ -5,7 +5,7 @@ package com.android.handler;
  */
 public class TestCommunicate {
     public static void main(String[] args) {
-        Log.d("Test thread communicate...");
+        Log.d("HashTest thread communicate...");
         ReceiverThreadA receiver = new ReceiverThreadA();
         receiver.start();
         // sleep 0.5s to ensure the handler not null
