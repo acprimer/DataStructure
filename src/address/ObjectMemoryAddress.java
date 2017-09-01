@@ -1,3 +1,5 @@
+package address;
+
 import sun.misc.Unsafe;
 
 import java.lang.reflect.Field;
@@ -49,7 +51,7 @@ public class ObjectMemoryAddress {
 
         MemTest memTest = new MemTest();
         MemTest.Inner inner = memTest.new Inner();
-//        memTest.next = new MemTest();
+//        memTest.next = new address.MemTest();
         System.out.println("hash code: 0x" + Integer.toHexString(new Object().hashCode()));
         System.out.println("hash code: 0x" + Integer.toHexString(memTest.hashCode()) + " 0b:" + Integer.toBinaryString(memTest.hashCode()));
         System.out.println("hash code: 0x" + Integer.toHexString(memTest.hashCode()) + " 0b:" + Integer.toBinaryString(memTest.hashCode()));
@@ -63,13 +65,18 @@ public class ObjectMemoryAddress {
         unsafe.putAddress(memoryAddress, 5);
         System.out.println(Long.toHexString(memoryAddress) + ": " + unsafe.getAddress(memoryAddress));
 
-//        System.out.println(new ParkMillerRNG().random());
-//        System.out.println(new ParkMillerRNG().random());
+//        System.out.println(new hash.ParkMillerRNG().random());
+//        System.out.println(new hash.ParkMillerRNG().random());
 //        long code = 1;
 //        while (code != memTest.hashCode()) {
-//            code = new ParkMillerRNG().random();
+//            code = new hash.ParkMillerRNG().random();
 //            System.out.println("0x" + Long.toHexString(code));
 //        }
+
+        IntArr a = new IntArr();
+        System.out.println("Address of new A()");
+        System.out.println(Long.toHexString(addressOf(a)));
+        printAddress("address " + a);
     }
 
     public static long addressOf(Object obj) {
@@ -109,7 +116,7 @@ public class ObjectMemoryAddress {
                 System.out.println(" getAddress " + unsafe.getInt(i1 + 20));
                 System.out.println(" getAddress " + unsafe.getLong(i1 + 24));
                 System.out.println(" getAddress hex: " + Long.toHexString(8*unsafe.getLong(i1 + 24)));
-//                System.out.println(" getAddress " + unsafe.getInt(i1 + 28));
+                System.out.println(" getAddress " + unsafe.getInt(i1 + 28));
                 last = i1;
                 for (int i = 1; i < objects.length; i++) {
                     final long i2 = (unsafe.getInt(objects, offset + i * 4) & 0xFFFFFFFFL) * factor;
@@ -134,5 +141,12 @@ public class ObjectMemoryAddress {
         } catch (Exception e) {
             throw new AssertionError(e);
         }
+    }
+
+    static class A {
+        Integer[] a = new Integer[4];
+    }
+    static class B {
+        int[] a = new int[4];
     }
 }
