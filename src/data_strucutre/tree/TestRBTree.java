@@ -5,7 +5,7 @@ package data_strucutre.tree;
  */
 public class TestRBTree {
     public static void main(String[] args) {
-        RBTree<String, String> tree = new RBTree<>();
+        LLRBTree<String, String> tree = new LLRBTree<>();
         tree.put("S", "");
         tree.put("E", "");
         tree.put("A", "");
