@@ -1,4 +1,4 @@
-package jvm.load;
+package jvm.loader;
 
 import java.io.BufferedInputStream;
 import java.io.FileInputStream;
@@ -8,11 +8,16 @@ import java.io.IOException;
 /**
  * Created by yaodh on 2017/4/11.
  */
-public class MyClassLoader extends ClassLoader{
+public class MySubClassLoader extends MyClassLoader {
     private String byteCodePath;
 
-    public MyClassLoader(String path) {
-        byteCodePath = path;
+    static {
+        boolean result = registerAsParallelCapable();
+        System.out.println("MySubClassLoader registerAsParallelCapable " + result);
+    }
+
+    public MySubClassLoader(ClassLoader parent) {
+        super(parent);
     }
 
     @Override

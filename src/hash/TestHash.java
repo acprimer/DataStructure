@@ -8,5 +8,11 @@ public class TestHash {
         String str = "hello";
         System.out.println(str.hashCode());
         System.out.println(System.identityHashCode(str));
+
+        RandomHash randomHash = new RandomHash();
+        System.out.println(randomHash.hashCode());
+        System.out.println(randomHash.hashCode());
+        System.out.println(System.identityHashCode(randomHash));
+        System.out.println(System.identityHashCode(randomHash));
     }
 }

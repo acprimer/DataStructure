@@ -1,4 +1,4 @@
-package jvm.load;
+package jvm.loader;
 
 /**
  * Created by yaodh on 2017/4/11.
