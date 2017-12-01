@@ -1,5 +1,7 @@
 package jvm.loader;
 
+import sun.misc.VM;
+
 import java.io.BufferedInputStream;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -46,5 +48,15 @@ public class MyClassLoader extends ClassLoader {
             }
         }
         return defineClass(val, 0, val.length);
+    }
+
+    // true if the name is null or has the potential to be a valid binary name
+    public boolean checkName(String name) {
+        if ((name == null) || (name.length() == 0))
+            return true;
+        if ((name.indexOf('/') != -1)
+                || (!VM.allowArraySyntax() && (name.charAt(0) == '[')))
+            return false;
+        return true;
     }
 }

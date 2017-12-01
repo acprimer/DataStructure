@@ -16,6 +16,10 @@ public class ClassLoaderTest {
             System.out.println(url.toExternalForm());
         }
         System.out.println(System.getProperty("sun.boot.class.path"));
+        System.out.println(System.getProperty("java.ext.dirs"));
+        System.out.println(System.getProperty("java.class.path"));
+
+//        System.out.println(ClassLoader.getSystemClassLoader());
 
         try {
             Class<?> cla = ClassLoaderTest.class.getClassLoader().loadClass("jvm.loader.InitStaticOrder");
@@ -38,15 +42,19 @@ public class ClassLoaderTest {
             }
         }).run();
 
-        MyClassLoader myClassLoader = new MyClassLoader("E:/JavaProject/");
-        MySubClassLoader mySubClassLoader = new MySubClassLoader(myClassLoader);
+        MyClassLoader myClassLoader = new MyClassLoader("E:/JavaProject/SayHello/out/production/SayHello/java/lang/");
+        MySubClassLoader mySubClassLoader = new MySubClassLoader(null);
         try {
-            Class clazz = mySubClassLoader.loadClass("TestClass");
-            ClassLoader classLoader2 = mySubClassLoader;
-            while (classLoader2 != null) {
-                System.out.println("parent = " + classLoader2);
-                classLoader2 = classLoader2.getParent();
-            }
+            Class clazz1 = ClassLoaderTest.class.getClassLoader().loadClass("java.lang.String");
+            System.out.println("java.lang.String " + clazz1 + clazz1.hashCode());
+//            System.out.println("clazz " + clazz);
+            Class clazz2 = mySubClassLoader.loadClass("java.lang.String");
+            System.out.println("java.lang.String " + clazz2 + clazz1.hashCode());
+//            ClassLoader classLoader2 = mySubClassLoader;
+//            while (classLoader2 != null) {
+//                System.out.println("parent = " + classLoader2);
+//                classLoader2 = classLoader2.getParent();
+//            }
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
         }
@@ -60,5 +68,13 @@ public class ClassLoaderTest {
 
         SecurityManager sm = System.getSecurityManager();
         System.out.println(sm);
+
+        try {
+            ClassLoaderTest.class.getClassLoader().loadClass("jvm.loader.ClassLoaderTest");
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+        String s = "hello";
+        System.out.println(s);
     }
 }
