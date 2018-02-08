@@ -1,17 +1,8 @@
-import collections.map.*;
+import collections.map.SparseArray;
 import com.javamex.classmexer.MemoryUtil;
-import sun.misc.Unsafe;
 
-import java.io.File;
-import java.lang.ref.ReferenceQueue;
-import java.lang.ref.SoftReference;
-import java.lang.ref.WeakReference;
-import java.lang.reflect.Field;
-import java.util.*;
 import java.util.HashMap;
 import java.util.Map;
-
-import static sun.misc.Unsafe.getUnsafe;
 
 /**
  * Created by yaodh on 2016/10/10.
@@ -21,6 +12,13 @@ import static sun.misc.Unsafe.getUnsafe;
 
 public class Test {
     public static void main(String[] args) throws InterruptedException {
+        int a = 5;
+        int b = 10;
+        a = a ^ b;
+        b = a ^ b;
+        a = a ^ b;
+        System.out.printf("a=%d b=%d\n", a, b);
+
         System.out.println(System.identityHashCode(new Object()));
         System.out.println(System.identityHashCode(new Object()));
         System.out.println(System.identityHashCode(new Object()));

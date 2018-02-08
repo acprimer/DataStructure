@@ -1,6 +1,7 @@
 package jvm;
 
 import sun.misc.Unsafe;
+import utils.UnsafeUtils;
 
 import java.lang.reflect.Field;
 
@@ -10,16 +11,7 @@ import java.lang.reflect.Field;
 public class SizeOfInstance {
     public static void main(String[] args) {
         Field[] fields = ObjectA.class.getDeclaredFields();
-        Unsafe unsafe = null;
-        try {
-            Field f = Unsafe.class.getDeclaredField("theUnsafe");
-            f.setAccessible(true);
-            unsafe = (Unsafe) f.get(null);
-        } catch (NoSuchFieldException e) {
-            e.printStackTrace();
-        } catch (IllegalAccessException e) {
-            e.printStackTrace();
-        }
+        Unsafe unsafe = UnsafeUtils.getUnsafe();
         for (Field f : fields) {
             System.out.println(f.getName() + " offset: " + unsafe.objectFieldOffset(f));
         }
