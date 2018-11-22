@@ -26,5 +26,13 @@ public class TestHash {
 //        System.out.println(randomHash.hashCode());
 //        System.out.println(System.identityHashCode(randomHash));
 //        System.out.println(System.identityHashCode(randomHash));
+        RandomHash randomHash = new RandomHash();
+        System.out.println(randomHash.hashCode());
+        System.out.println(randomHash.hashCode());
+        System.out.println(System.identityHashCode(randomHash));
+        System.out.println(System.identityHashCode(randomHash));
+
+        System.out.println(Math.log(10) / Math.log(2));
+        System.out.println(Math.log(10) / Math.log(3));
     }
 }

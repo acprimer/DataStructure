@@ -1,6 +1,7 @@
 package jvm.loader;
 
 import sun.misc.Launcher;
+import sun.reflect.Reflection;
 
 import java.net.URL;
 
@@ -8,7 +9,6 @@ import java.net.URL;
  * Created by yaodh on 2017/4/11.
  */
 public class ClassLoaderTest {
-
 
     public static void main(String[] args) {
         URL[] urLs = Launcher.getBootstrapClassPath().getURLs();
@@ -34,13 +34,16 @@ public class ClassLoaderTest {
             classLoader = classLoader.getParent();
         }
 
-        new Thread(() -> {
-            ClassLoader classLoader1 = Thread.currentThread().getContextClassLoader();
-            while (classLoader1 != null) {
-                System.out.println(classLoader1);
-                classLoader1 = classLoader1.getParent();
+        new Thread(){
+            @Override
+            public void run() {
+                ClassLoader classLoader1 = Thread.currentThread().getContextClassLoader();
+                while (classLoader1 != null) {
+                    System.out.println(classLoader1);
+                    classLoader1 = classLoader1.getParent();
+                }
             }
-        }).run();
+        }.start();
 
         MyClassLoader myClassLoader = new MyClassLoader("E:/JavaProject/SayHello/out/production/SayHello/java/lang/");
         MySubClassLoader mySubClassLoader = new MySubClassLoader(null);
@@ -62,9 +65,8 @@ public class ClassLoaderTest {
         InitStaticOrder order = InitStaticOrder.instance;
         System.out.println(order);
 
-//        Class<?> caller = Reflection.getCallerClass();
-//        System.out.println(caller.getName());
-        System.out.println(-5%10);
+        Class<?> caller = Reflection.getCallerClass();
+        System.out.println(caller.getName());
 
         SecurityManager sm = System.getSecurityManager();
         System.out.println(sm);

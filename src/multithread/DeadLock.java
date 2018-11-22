@@ -5,8 +5,8 @@ package multithread;
  */
 public class DeadLock {
     public static void main(String[] args) {
-        Object lockA = new Object();
-        Object lockB = new Object();
+        final Object lockA = new Object();
+        final Object lockB = new Object();
 
         new Thread(new Runnable() {
             @Override

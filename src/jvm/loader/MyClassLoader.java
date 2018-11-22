@@ -27,6 +27,11 @@ public class MyClassLoader extends ClassLoader {
     }
 
     @Override
+    public Class<?> loadClass(String name) throws ClassNotFoundException {
+        return findClass(name);
+    }
+
+    @Override
     protected Class<?> findClass(String name) throws ClassNotFoundException {
         byte[] val = null;
         BufferedInputStream in = null;
