@@ -4,35 +4,51 @@ import sun.misc.Unsafe;
 import utils.UnsafeUtils;
 
 import java.lang.reflect.Field;
-import java.util.Scanner;
 
 /**
  * Created by yaodh on 2017/3/22.
  */
 public class SizeOfInstance {
-    private final Object lock = new ObjectA();
     public static void main(String[] args) {
-//        ObjectA obja = new ObjectA();
-//        Field[] fields = ObjectA.class.getDeclaredFields();
+        Field[] fields = ObjectA.class.getDeclaredFields();
         Unsafe unsafe = UnsafeUtils.getUnsafe();
-//        for (Field f : fields) {
-//            System.out.println(f.getName() + " offset: " + unsafe.objectFieldOffset(f));
-//        }
-//        System.out.println(Thread.currentThread().getId());
-//        Scanner sc = new Scanner(System.in);
-//        while (sc.hasNext()) {
-//            String line  = sc.nextLine();
-//        }
+        for (Field f : fields) {
+            System.out.println(f.getName() + " offset: " + unsafe.objectFieldOffset(f));
+        }
 
-        SizeOfInstance sizeOfInstance = new SizeOfInstance();
-        int hashCode = sizeOfInstance.hashCode();
-        System.out.println(Integer.toHexString(hashCode));
-        long l = unsafe.getLong(sizeOfInstance, 0);
-        System.out.println(Long.toHexString(l));
-        sizeOfInstance.fun();
-    }
+        // 通过Unsafe类修改成员变量
+        try {
+            ObjectA a = new ObjectA();
+            System.out.println(a.i1);
+            Field fi1 = ObjectA.class.getDeclaredField("i1");
+            unsafe.putInt(a, unsafe.objectFieldOffset(fi1), 5);
+            System.out.println(a.i1);
 
-    private synchronized void fun() {
-        System.out.println("In Lock");
+            System.out.println(a.getI2());
+            Field fi2 = ObjectA.class.getDeclaredField("i2");
+            unsafe.putInt(a, unsafe.objectFieldOffset(fi2), 5);
+            System.out.println(a.getI2());
+        } catch (NoSuchFieldException e) {
+            e.printStackTrace();
+        }
+
+        // 通过反射修改成员变量
+        try {
+            ObjectA a = new ObjectA();
+            Field fi1 = ObjectA.class.getDeclaredField("i1");
+            fi1.set(a, 5);
+            System.out.println(a.i1);
+
+            Field fi2 = ObjectA.class.getDeclaredField("i2");
+            fi2.setAccessible(true);
+            fi2.set(a, 5);
+            System.out.println(a.getI2());
+        } catch (NoSuchFieldException e) {
+            e.printStackTrace();
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+        }
+
+
     }
 }

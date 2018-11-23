@@ -37,6 +37,11 @@ public class Test {
 
         test.cls(Integer.class);
         test.cls(Integer.class);
+
+        List<B> list = new ArrayList<>();
+        list.add(new B());
+        list.add(new B());
+        set(list);
     }
 
     private void print(List<?> list) {
@@ -54,5 +59,12 @@ public class Test {
 
     private void cls2(Class<?> clz) {
         clz.asSubclass(Object.class);
+    }
+
+    static class A {}
+    static class B extends A {}
+    static class C extends A {}
+
+    public static void set(List<? extends A> data) {
     }
 }

@@ -1,5 +1,4 @@
 import collections.map.HashMap;
-import com.sun.tools.javac.util.Pair;
 
 /**
  * Created by yaodh on 2017/7/5.
@@ -24,7 +23,7 @@ public class ReverseInt {
         System.out.println("------");
 //        System.out.println(reverseInt.reverse4(-221));
         System.out.println(10000 == new Integer(10000));
-        Pair pair = new Pair(1, 2);
+//        Pair pair = new Pair(1, 2);
     }
 
     private int reverse1(int num) {

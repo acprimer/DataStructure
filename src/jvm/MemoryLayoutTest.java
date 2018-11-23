@@ -11,61 +11,57 @@ public class MemoryLayoutTest {
     public static void main(String[] args) {
         MemoryLayoutTest obj = new MemoryLayoutTest();
         obj.print();
-        try {
-            Thread.sleep(5000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-        obj.printSync();
-//        Unsafe unsafe = UnsafeUtils.getUnsafe();
-//        MemoryLayoutTest obj = new MemoryLayoutTest();
-//        int hash = obj.hashCode();
-//        System.out.println(Integer.toHexString(hash));
-//        obj.print();
-        int x = 5;
-        int y = 6;
-        int z = x + y;
-//        // 计算Hash值
-//        int hash = obj.hashCode();
-//        System.out.println(Integer.toHexString(hash));
-//        System.out.printf("0x%016x\n", unsafe.getLong(obj, 0L));
-//        System.out.printf("0x%016x\n", unsafe.getLong(obj, 8L));
-//        System.out.printf("0x%016x\n", unsafe.getLong(obj, 16L));
-//        System.out.printf("0x%016x\n", unsafe.getLong(obj, 24L));
-//        System.out.printf("0x%016x\n", unsafe.getLong(obj, 32L));
-
-//        obj.fun();
-
-    }
-
-    private void fun() {
-        x++;
-        print();
-        int hash = hashCode();
-        System.out.println(Integer.toHexString(hash));
-        print();
-        hash = hashCode();
-        System.out.println(Integer.toHexString(hash));
-//        for (int i = 0; i < 2; i++) {
+        obj.printHash();
+        obj.print();
+//        obj.printSync();
+//        try {
+//            Thread.sleep(2000);
+//        } catch (InterruptedException e) {
+//            e.printStackTrace();
+//        }
+//        new Thread() {
+//            @Override
+//            public void run() {
+//                System.out.println("Thread " + Thread.currentThread().getName());
+//                obj.printSync();
+//            }
+//        }.start();
+//        try {
+//            Thread.sleep(2000);
+//        } catch (InterruptedException e) {
+//            e.printStackTrace();
+//        }
+//        System.out.println("Thread " + Thread.currentThread().getName());
+//        obj.printSync();
+//        new Thread() {
+//            @Override
+//            public void run() {
+//                System.out.println("Thread " + Thread.currentThread().getName());
+//                obj.printSync();
+//            }
+//        }.start();
+//        try {
+//            Thread.sleep(2000);
+//        } catch (InterruptedException e) {
+//            e.printStackTrace();
+//        }
+//        for (int i = 0; i < 4; i++) {
 //            new Thread() {
 //                @Override
 //                public void run() {
-//                    print();
+//                    System.out.println("Thread " + Thread.currentThread().getName());
+//                    obj.printSync();
 //                }
 //            }.start();
 //        }
-
-//        int hash = hashCode();
-//        System.out.println(Integer.toHexString(hash));
-//        System.out.println(Long.toHexString(unsafe.getLong(obj, 0)));
     }
 
     private void print() {
-        try {
-            Thread.sleep(1000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
+//        try {
+//            Thread.sleep(1000);
+//        } catch (InterruptedException e) {
+//            e.printStackTrace();
+//        }
         MemoryLayoutTest obj = this;
         System.out.println("开始打印");
         Unsafe unsafe = UnsafeUtils.getUnsafe();
@@ -80,6 +76,11 @@ public class MemoryLayoutTest {
 
     private synchronized void printSync() {
         print();
+    }
+
+    private void printHash() {
+        int hash = hashCode();
+        System.out.println("HashCode: \n0x" + Integer.toHexString(hash));
     }
 }
 

@@ -8,9 +8,14 @@ import java.util.concurrent.locks.ReentrantLock;
  * Created by yaodh on 2018/2/5.
  */
 public class Test {
+    private Object obj = new Object();
     ReentrantLock lock = new ReentrantLock();
 
     private void test() {
+        System.out.println(Thread.holdsLock(obj));
+        synchronized (obj) {
+            System.out.println(Thread.holdsLock(obj));
+        }
         new Thread() {
             @Override
             public void run() {
@@ -18,6 +23,8 @@ public class Test {
                 try {
                     System.out.println("Thread 1");
                     sleep(10000);
+                    System.out.println(Thread.holdsLock(lock));
+                    System.out.println(lock.isHeldByCurrentThread());
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 } finally {
@@ -25,6 +32,19 @@ public class Test {
                 }
             }
         }.start();
+//        new Thread() {
+//            @Override
+//            public void run() {
+//                System.out.println("AA");
+//                lock.lock();
+//                System.out.println("lock");
+//                try {
+//                    System.out.println("Thread 2");
+//                } finally {
+//                    lock.unlock();
+//                }
+//            }
+//        }.start();
         Thread t2 = new Thread() {
             @Override
             public void run() {
