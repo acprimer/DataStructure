@@ -7,6 +7,17 @@ public class MemoryLayoutTest {
     private long x = 0x786;
     private long y = 0x3345;
     String str = "Hello";
+    boolean b = true;
+    byte aByte = 0x9;
+    char ch = 0x22;
+    int xz = 0x1222;
+    int xy = 0x1333;
+
+    // 0x00000000 00000005  [mark word]
+    // 0x0901000a 80051aa0  [][_meta data]
+    // 0x00000000 00000786
+    // 0x00000000 00003345
+    // 0x00000000 f5789478
 
     public static void main(String[] args) {
         MemoryLayoutTest obj = new MemoryLayoutTest();
