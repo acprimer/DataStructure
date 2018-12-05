@@ -20,6 +20,9 @@ public class MemoryLayoutTest {
     // 0x00000000 f5789478
 
     public static void main(String[] args) {
+        int zz = 0x444;
+        long yyy = 0x9999;
+        int[] arr = new int[]{0x314, 0x15926};
         MemoryLayoutTest obj = new MemoryLayoutTest();
         obj.print();
         obj.printHash();
