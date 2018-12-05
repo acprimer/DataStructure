@@ -4,7 +4,7 @@
 public class RecursionTest {
     /**
      * 测试递归调用多少次
-     * 结果：2K~5K多次
+     * 结果：3K~5K多次
      * @param d
      */
     private void dfs(int d) {
