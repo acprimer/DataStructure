@@ -18,4 +18,9 @@ public class InitStaticOrder {
     public String toString() {
         return super.toString() + " n1= " + n1 + " n2= " + n2;
     }
+
+    public static void main(String[] args) {
+        InitStaticOrder order = InitStaticOrder.instance;
+        System.out.println(order);
+    }
 }
