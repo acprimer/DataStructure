@@ -1,0 +1,4 @@
+package patterns;
+
+interface TestIntLook {
+}

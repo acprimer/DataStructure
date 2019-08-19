@@ -3,7 +3,11 @@ package jvm;
 import sun.misc.Unsafe;
 import utils.UnsafeUtils;
 
-public class MemoryLayoutTest {
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+
+public class MemoryLayoutTest implements Cloneable {
     private long x = 0x786;
     private long y = 0x3345;
     String str = "Hello";
@@ -13,6 +17,11 @@ public class MemoryLayoutTest {
     int xz = 0x1222;
     int xy = 0x1333;
 
+    @Override
+    public int hashCode() {
+        return 1;
+    }
+
     // 0x00000000 00000005  [mark word]
     // 0x0901000a 80051aa0  [][_meta data]
     // 0x00000000 00000786
@@ -20,13 +29,28 @@ public class MemoryLayoutTest {
     // 0x00000000 f5789478
 
     public static void main(String[] args) {
-        int zz = 0x444;
-        long yyy = 0x9999;
-        int[] arr = new int[]{0x314, 0x15926};
-        MemoryLayoutTest obj = new MemoryLayoutTest();
-        obj.print();
-        obj.printHash();
-        obj.print();
+//        MemoryLayoutTest obj = new MemoryLayoutTest();
+        HashMap<MemoryLayoutTest, String> map = new HashMap<>();
+        List<MemoryLayoutTest> list = new ArrayList<>();
+        for (int i = 0; i < 16; i++) {
+            MemoryLayoutTest o = new MemoryLayoutTest();
+            o.print();
+            map.put(o, String.valueOf(i));
+            list.add(o);
+        }
+        System.out.println("after");
+        for (MemoryLayoutTest o : list) {
+            System.out.println("identityHash: " + Integer.toHexString(System.identityHashCode(o)));
+            o.print();
+        }
+//        obj.printSync();
+//        int x = 0;
+//        int y = 1;
+//        int z = x + y;
+//        obj.print();
+//        obj.printHash();
+//        obj.fun();
+//        obj.print();
 //        obj.printSync();
 //        try {
 //            Thread.sleep(2000);
@@ -70,7 +94,7 @@ public class MemoryLayoutTest {
 //        }
     }
 
-    private void print() {
+    public void print() {
 //        try {
 //            Thread.sleep(1000);
 //        } catch (InterruptedException e) {
@@ -88,13 +112,23 @@ public class MemoryLayoutTest {
         System.out.printf("0x%016x\n", unsafe.getLong(obj, 24L));
     }
 
-    private synchronized void printSync() {
-        print();
+    public synchronized void printSync() {
+//        print();
+        test();
     }
 
-    private void printHash() {
+    public synchronized void test() {
+        System.out.println("in sync");
+    }
+
+    public void printHash() {
         int hash = hashCode();
         System.out.println("HashCode: \n0x" + Integer.toHexString(hash));
+    }
+
+    private void fun() {
+        int a = 1;
+        int b = 1;
     }
 }
 
