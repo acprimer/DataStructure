@@ -10,7 +10,14 @@ public class L7Test {
 }
 
 class MyParent3 {
+    static int y;
+    static {
+        x = 1;
+    }
     static int x = 1;
+    static String s = "a";
+    static String t = "b";
+    static String z = s + t;
     static {
         x = 2;
         System.out.println("MyParent3 static block");
