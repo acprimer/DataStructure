@@ -11,5 +11,6 @@ public class EnumTest {
     public static void main(String[] args) {
         System.out.println(Ad.Youdao.ordinal());
         System.out.println(Ad.Facebook.ordinal());
+
     }
 }

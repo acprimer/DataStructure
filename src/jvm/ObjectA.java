@@ -11,6 +11,7 @@ public class ObjectA {
     private int i2 = 20;
     Object obj;
     byte b3 = 7;
+    final int myFinalInt = 99;
 
     public int getI2() {
         return i2;
@@ -25,5 +26,9 @@ public class ObjectA {
             int k = x * 3;
         }
         return y;
+    }
+
+    public int getMyFinalInt() {
+        return myFinalInt;
     }
 }
